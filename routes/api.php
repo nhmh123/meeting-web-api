@@ -13,7 +13,10 @@ Route::get('/',function(){
 });
 
 // Auth api
-Route::post('/login',[AuthController::class,'login']);
-Route::post('/register',[AuthController::class,'register']);
-Route::post('/logout',[AuthController::class,'logout'])->middleware('auth:sanctum');
+Route::controller(AuthController::class)->prefix('/auth')->group(function(){
+    Route::post('/login',[AuthController::class,'login']);
+    Route::post('/register',[AuthController::class,'register']);
+    Route::post('/logout',[AuthController::class,'logout'])->middleware('auth:sanctum');
+});
+
 Route::get('/profile',[AuthController::class,'show'])->middleware('auth:sanctum');
