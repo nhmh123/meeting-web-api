@@ -19,28 +19,31 @@ class AuthController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'success' => false,
-                'errors' => $validation->errors(),
-            ]);
+                'data' => $validation->errors()->all(),
+            ],422);
         }
 
         try {
-            if(Auth::attempt(['email'=> $request->email,'password'=> $request->password])) {    
-                $user = Auth::user();
+            $user = User::where('email', $request->email)->first();
+            
+            if ($user && password_verify($request->password, $user->password)) {
+                $token = $user->createToken('auth_token')->plainTextToken;
+                $user['token'] = $token;
+                
                 return response()->json([
-                    'success'=>true,
-                    'message'=>'Đăng nhập thành công',
-                    'data'=>$user,
-                    'token'=>$user->createToken('auth_token')->plainTextToken,
+                    'success' => true,
+                    'message' => 'Đăng nhập thành công',
+                    'data' => $user,
                 ]);
-            }else{
-                throw new \Exception('Tài khoản hoặc mật khẩu không đúng');
             }
+            
+            throw new \Exception('Tài khoản hoặc mật khẩu không đúng');
 
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
                 'message' => $th->getMessage(),
-            ]);
+            ], 401);
         }
     }
 
@@ -56,8 +59,8 @@ class AuthController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'success' => false,
-                'errors' => $validation->errors(),
-            ]);
+                'data' => $validation->errors()->all(),
+            ],422);
         }
 
         try {
@@ -67,11 +70,12 @@ class AuthController extends Controller
                 'password'=>password_hash($request->password, PASSWORD_DEFAULT),
             ]);
 
+            $user['token'] = $user->createToken('auth_token')->plainTextToken; // ['token'=>
+
             return response()->json([
                 'success'=>true,
                 'message'=>'Đăng ký thành công',
                 'data'=>$user,
-                'token'=>$user->createToken('auth_token')->plainTextToken,
             ]);
         } catch (\Throwable $th) {
             return response()->json([
@@ -83,21 +87,25 @@ class AuthController extends Controller
 
     public function logout(Request $request) {
         try {
-            if(Auth::check()){
-                $request->user()->tokens()->delete();
-                Auth::logout();
-                return response()->json([
-                    'success'=>true,
-                    'message'=>'Đăng xuất thành công'
-                ]);
-            }else{
-                throw new \Exception('Chưa xác thực');
-            }
+            $request->user()->tokens()->delete();
+            return response()->json([
+                'success'=>true,
+                'message'=>'Đăng xuất thành công'
+            ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
                 'message' => $th->getMessage(),
             ]);
         }
+    }
+
+    public function show(){
+        $user = User::where('id',Auth::user()->id)->first();
+        return response()->json([
+           'success'=>true,
+           'message'=>'Lấy thông tin thành công',
+            'data'=>$user,  
+        ]);
     }
 }
