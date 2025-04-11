@@ -33,7 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 return response()->json([
                     'success' => false,
                     'message' => 'Database connection failed',
-                    'error' => config('app.debug') ? $e->getMessage() : 'Server error'
+                    'data' => config('app.debug') ? $e->getMessage() : 'Server error'
                 ], 503);
             }
         });
