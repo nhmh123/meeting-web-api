@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;  // Add this at the top with other use statements
 
 class AuthController extends Controller
 {
@@ -26,7 +27,7 @@ class AuthController extends Controller
         try {
             $user = User::where('email', $request->email)->first();
             
-            if ($user && password_verify($request->password, $user->password)) {
+            if ($user && Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('auth_token')->plainTextToken;
                 $user['token'] = $token;
                 
@@ -65,17 +66,17 @@ class AuthController extends Controller
 
         try {
             $user = User::create([
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'password'=>password_hash($request->password, PASSWORD_DEFAULT),
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),  // Use Hash::make instead of password_hash
             ]);
 
-            $user['token'] = $user->createToken('auth_token')->plainTextToken; // ['token'=>
+            $user['token'] = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
-                'success'=>true,
-                'message'=>'Đăng ký thành công',
-                'data'=>$user,
+                'success' => true,
+                'message' => 'Đăng ký thành công',
+                'data' => $user,
             ]);
         } catch (\Throwable $th) {
             return response()->json([
