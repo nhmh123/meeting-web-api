@@ -82,38 +82,24 @@ return [
             ]) : [],
         ],
 
-        // 'pgsql' => [
-        //     'driver' => 'pgsql',
-        //     'url' => env('DB_URL'),
-        //     'host' => env('DB_HOST', 'ep-young-wildflower-a5ge1zye.us-east-2.aws.neon.tech'),
-        //     'port' => env('DB_PORT', '5432'),
-        //     'database' => env('DB_DATABASE', 'meeting_web'),
-        //     'username' => env('DB_USERNAME', 'meeting_web_owner'),
-        //     'password' => env('DB_PASSWORD', '$npg_MjC4wGzyZ6rp'),
-        //     'charset' => env('DB_CHARSET', 'utf8'),
-        //     'prefix' => '',
-        //     'prefix_indexes' => true,
-        //     'search_path' => 'public',
-        //     'sslmode' => 'require',
-        //     'options' => [
-        //         'options' => '--endpoint=ep-young-wildflower-a5ge1zye'
-        //     ],
-        // ],
-
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => env('DATABASE_URL'),
-            'host' => parse_url(env('DATABASE_URL'), PHP_URL_HOST),
+            'url' => env('DB_URL'),
+            'host' => env('DB_HOST', 'ep-young-wildflower-a5ge1zye.us-east-2.aws.neon.tech'),
             'port' => env('DB_PORT', '5432'),
-            'database' => ltrim(parse_url(env('DATABASE_URL'), PHP_URL_PATH), '/'),
-            'username' => parse_url(env('DATABASE_URL'), PHP_URL_USER),
-            'password' => parse_url(env('DATABASE_URL'), PHP_URL_PASS),
-            'charset' => 'utf8',
+            'database' => env('DB_DATABASE', 'meeting_web'),
+            'username' => env('DB_USERNAME', 'meeting_web_owner'),
+            'password' => env('DB_PASSWORD', 'endpoint=ep-young-wildflower-a5ge1zye$npg_MjC4wGzyZ6rp'),
+            'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => 'require',
+            'options' => [
+                'options' => '--endpoint=ep-young-wildflower-a5ge1zye'
+            ],
         ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DB_URL'),
