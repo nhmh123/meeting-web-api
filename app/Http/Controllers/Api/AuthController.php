@@ -108,6 +108,5 @@ class AuthController extends Controller
             'data'=>$user,  
         ]);
     }
-
     
 }

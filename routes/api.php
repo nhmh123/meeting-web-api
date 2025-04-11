@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\JWTController;
 
 Route::get('/',function(){
     return response()->json([
@@ -20,3 +21,13 @@ Route::controller(AuthController::class)->prefix('/auth')->group(function(){
 });
 
 Route::get('/profile',[AuthController::class,'show'])->middleware('auth:sanctum');
+
+//JWT Auth
+Route::post('/jwt-register', [JWTController::class, 'register']);
+Route::post('/jwt-login', [JWTController::class, 'login']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/jwt-user', [JWTController::class, 'user']);
+    Route::post('/jwt-logout', [JWTController::class, 'logout']);
+    Route::post('/jwt-refresh', [JWTController::class, 'refresh']);
+});
