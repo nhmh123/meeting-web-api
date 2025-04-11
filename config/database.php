@@ -96,7 +96,7 @@ return [
             'search_path' => 'public',
             'sslmode' => 'require',
             'options' => [
-                'options' => '--endpoint=ep-young-wildflower-a5ge1zye'
+                'endpoint' => 'ep-young-wildflower-a5ge1zye'
             ],
         ],
 
