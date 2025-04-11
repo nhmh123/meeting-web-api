@@ -26,4 +26,21 @@ return Application::configure(basePath: dirname(__DIR__))
                 ], 405);
             }
         });
+
+        // Handle all exceptions for API routes
+        $exceptions->render(function (\Throwable $e, $request) {
+            if ($request->is('api/*')) {
+                $statusCode = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                    'error' => config('app.debug') ? [
+                        'type' => get_class($e),
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine()
+                    ] : null
+                ], $statusCode);
+            }
+        });
     })->create();
