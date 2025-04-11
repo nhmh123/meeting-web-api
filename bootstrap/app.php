@@ -27,20 +27,14 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
-        // Handle all exceptions for API routes
-        $exceptions->render(function (\Throwable $e, $request) {
-            if ($request->is('api/*')) {
-                $statusCode = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
-                
+        // Handle Database Connection Errors
+        $exceptions->render(function (\PDOException $e, $request) {
+            if ($request->is('api/*') && str_contains($e->getMessage(), 'could not connect to server')) {
                 return response()->json([
                     'success' => false,
-                    'message' => $e->getMessage(),
-                    'error' => config('app.debug') ? [
-                        'type' => get_class($e),
-                        'file' => $e->getFile(),
-                        'line' => $e->getLine()
-                    ] : null
-                ], $statusCode);
+                    'message' => 'Database connection failed',
+                    'error' => config('app.debug') ? $e->getMessage() : 'Server error'
+                ], 503);
             }
         });
     })->create();
