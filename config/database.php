@@ -85,16 +85,16 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_HOST', 'ep-young-wildflower-a5ge1zye-pooler.us-east-2.aws.neon.tech'),
             'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'laravel'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
+            'database' => env('DB_DATABASE', 'meeting_web'),
+            'username' => env('DB_USERNAME', 'meeting_web_owner'),
+            'password' => env('DB_PASSWORD', 'endpoint=ep-young-wildflower-a5ge1zye-pooler$npg_MjC4wGzyZ6rp'),
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
-            'sslmode' => 'prefer',
+            'sslmode' => 'require',
         ],
 
         'sqlsrv' => [
