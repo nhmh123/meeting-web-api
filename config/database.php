@@ -89,7 +89,7 @@ return [
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'meeting_web'),
             'username' => env('DB_USERNAME', 'meeting_web_owner'),
-            'password' => env('DB_PASSWORD', 'endpoint=ep-young-wildflower-a5ge1zye$npg_MjC4wGzyZ6rp'),
+            'password' => env('DB_PASSWORD', 'ep-young-wildflower-a5ge1zye$npg_MjC4wGzyZ6rp'),
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
