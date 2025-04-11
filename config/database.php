@@ -84,7 +84,7 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => env('DB_URL'),
+            'url' => env('DB_URL','postgresql://meeting_web_owner:npg_MjC4wGzyZ6rp@ep-young-wildflower-a5ge1zye.us-east-2.aws.neon.tech/meeting_web?sslmode=require&options=endpoint%3Dep-young-wildflower-a5ge1zye'),
             'host' => env('DB_HOST', 'ep-young-wildflower-a5ge1zye-pooler.us-east-2.aws.neon.tech'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'meeting_web'),
